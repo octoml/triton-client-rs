@@ -1,10 +1,10 @@
 use anyhow;
 use prost_types;
 
+use tonic::metadata::MetadataValue;
 use tonic::transport::channel::ClientTlsConfig;
-use tonic::{metadata::MetadataValue};
-use tonic::{transport::Channel, Request};
 use tonic::{service::interceptor::InterceptedService, Status};
+use tonic::{transport::Channel, Request};
 
 use super::inference::grpc_inference_service_client::GrpcInferenceServiceClient;
 
@@ -24,11 +24,10 @@ pub enum Error {
 
 impl Client {
     pub async fn new(url: String, access_token: Option<String>) -> anyhow::Result<Self> {
-            let channel = Channel::from_shared(url)?
-                .tls_config(ClientTlsConfig::new())?
-                .connect()
-                .await?;
-
+        let channel = Channel::from_shared(url)?
+            .tls_config(ClientTlsConfig::new())?
+            .connect()
+            .await?;
 
         let interceptor_fn = Box::new(move |mut req: Request<()>| {
             if let Some(access_token) = access_token.clone() {

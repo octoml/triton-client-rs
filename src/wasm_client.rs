@@ -2,11 +2,10 @@ use anyhow;
 use prost_types;
 
 #[cfg(feature = "tls")]
-use tonic::transport::channel::ClientTlsConfig;
+use tonic::metadata::MetadataValue;
 #[cfg(feature = "tls")]
-
-use tonic::{metadata::MetadataValue};
-use tonic::{Request};
+use tonic::transport::channel::ClientTlsConfig;
+use tonic::Request;
 use tonic::{service::interceptor::InterceptedService, Status};
 
 use super::inference::grpc_inference_service_client::GrpcInferenceServiceClient;
