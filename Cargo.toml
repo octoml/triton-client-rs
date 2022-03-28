@@ -1,0 +1,38 @@
+[package]
+name = "triton-client"
+version = "1.0.0"
+authors = ["Jared Roesch <jroesch@octoml.ai>"]
+edition = "2018"
+
+[features]
+default = ["tls"]
+wasm = ["grpc-web-client"]
+tls = ["tonic/tls", "tonic/tls-roots"]
+
+[dependencies]
+bytes = { version = "1", default-features = false }
+prost = { version = "^0.9", default-features = false, features = ["prost-derive"] }
+prost-types = { version = "^0.9", default-features = false }
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "1.0"
+tonic = { version = "^0.6", default-features = false, features = ["codegen", "prost"] }
+grpc-web-client = { git = "https://github.com/octoml/grpc-web-client.git", optional = true }
+thiserror = "1.0"
+anyhow = "1.0"
+http = { version = "0.2", default-features = false }
+http-body = { version = "0.4", default-features = false }
+byteorder = { version = "1", default-features = false }
+base64 = { version = "0.13", default-features = false }
+wasm-bindgen = { version = "0.2", default-features = false, features = ["serde-serialize"] }
+wasm-bindgen-futures = { version = "0.4", default-features = false }
+wasm-streams = { version = "0.2" }
+futures = { version = "0.3", default-features = false, features = ["alloc"] }
+js-sys = { version = "0.3", default-features = false }
+httparse = { version = "1", default-features = false }
+hyper = { version = "0.14", default-features = false }
+
+
+[build-dependencies]
+walkdir = "2"
+anyhow = "1.0"
+tonic-build = { version = "^0.6", default-features = false, features = ["prost"] }
