@@ -11,7 +11,7 @@ use super::inference::grpc_inference_service_client::GrpcInferenceServiceClient;
 type InterceptorFn = Box<dyn Fn(Request<()>) -> Result<Request<()>, Status> + Send>;
 
 pub struct Client {
-    client: GrpcInferenceServiceClient<InterceptedService<Channel, InterceptorFn>>,
+    pub client: GrpcInferenceServiceClient<InterceptedService<Channel, InterceptorFn>>,
 }
 
 #[derive(thiserror::Error, Debug)]
@@ -24,16 +24,21 @@ pub enum Error {
 
 impl Client {
     pub async fn new(url: String, access_token: Option<String>) -> anyhow::Result<Self> {
-        let channel = Channel::from_shared(url)?
-            .tls_config(ClientTlsConfig::new())?
-            .connect()
-            .await?;
+        let mut channel = Channel::from_shared(url)?;
+
+        if access_token.is_some() {
+            channel = channel
+            .tls_config(ClientTlsConfig::new())?;
+        }
+
+        let channel = channel.connect().await?;
 
         let interceptor_fn = Box::new(move |mut req: Request<()>| {
             if let Some(access_token) = access_token.clone() {
-                //let token_header = MetadataValue::from_shared(format!("Bearer {}", access_token).into())?;
-                // req.metadata_mut().insert("authorization", token_header.clone());
+                let token_header = MetadataValue::from_shared(format!("Bearer {}", access_token).into())?;
+                req.metadata_mut().insert("authorization", token_header.clone());
             }
+
             Ok(req)
         }) as InterceptorFn;
 
