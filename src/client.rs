@@ -1,6 +1,4 @@
 use anyhow;
-use prost_types;
-
 use tonic::metadata::MetadataValue;
 use tonic::transport::channel::ClientTlsConfig;
 use tonic::{service::interceptor::InterceptedService, Status};
@@ -35,7 +33,8 @@ impl Client {
 
         let interceptor_fn = Box::new(move |mut req: Request<()>| {
             if let Some(access_token) = access_token.clone() {
-                let token_header = MetadataValue::from_shared(format!("Bearer {}", access_token).into())?;
+                let header = format!("Bearer {}", access_token);
+                let token_header = MetadataValue::from_shared(header.into_bytes().into()).unwrap();
                 req.metadata_mut().insert("authorization", token_header.clone());
             }
 
