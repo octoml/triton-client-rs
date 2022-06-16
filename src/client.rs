@@ -1,3 +1,5 @@
+use std::ops::{Deref, DerefMut};
+
 use http::uri::InvalidUri;
 use tonic::metadata::MetadataValue;
 use tonic::transport::channel::ClientTlsConfig;
@@ -9,7 +11,20 @@ use super::inference::grpc_inference_service_client::GrpcInferenceServiceClient;
 type InterceptorFn = Box<dyn Fn(Request<()>) -> Result<Request<()>, Status> + Send>;
 
 pub struct Client {
-    pub client: GrpcInferenceServiceClient<InterceptedService<Channel, InterceptorFn>>,
+    pub inner: GrpcInferenceServiceClient<InterceptedService<Channel, InterceptorFn>>,
+}
+
+impl Deref for Client {
+    type Target = GrpcInferenceServiceClient<InterceptedService<Channel, InterceptorFn>>;
+    fn deref(&self) -> &Self::Target {
+        &self.inner
+    }
+}
+
+impl DerefMut for Client {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.inner
+    }
 }
 
 #[derive(thiserror::Error, Debug)]
@@ -43,6 +58,6 @@ impl Client {
 
         let client = GrpcInferenceServiceClient::with_interceptor(channel, interceptor_fn);
 
-        Ok(Client { client })
+        Ok(Client { inner: client })
     }
 }
