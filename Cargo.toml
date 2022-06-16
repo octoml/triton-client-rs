@@ -5,7 +5,9 @@ authors = ["Jared Roesch <jroesch@octoml.ai>"]
 edition = "2018"
 license = "Apache-2.0"
 repository = "https://github.com/octoml/triton-client-rs"
-description = "A client for NVIDIA Triton."
+description = "A client for interfacing with NVIDIA Triton inference server."
+keywords = ["deep-learning", "inference", "nvidia", "triton"]
+readme = "README.md"
 
 [features]
 default = ["tls"]
