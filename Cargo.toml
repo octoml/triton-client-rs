@@ -1,12 +1,12 @@
 [package]
 name = "triton-client"
-version = "1.0.0"
+version = "0.0.1"
 authors = ["Jared Roesch <jroesch@octoml.ai>"]
 edition = "2018"
 
 [features]
 default = ["tls"]
-wasm = ["grpc-web-client"]
+wasm = []
 tls = ["tonic/tls", "tonic/tls-roots"]
 
 [dependencies]
@@ -16,7 +16,6 @@ prost-types = { version = "^0.9", default-features = false }
 serde = { version = "^1.0", features = ["derive"] }
 serde_json = "1.0"
 tonic = { version = "^0.6", default-features = false, features = ["codegen", "prost"] }
-grpc-web-client = { git = "https://github.com/octoml/grpc-web-client.git", optional = true }
 thiserror = "1.0"
 anyhow = "1.0"
 http = { version = "0.2", default-features = false }
