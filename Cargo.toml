@@ -4,7 +4,6 @@ version = "0.0.1"
 authors = ["Jared Roesch <jroesch@octoml.ai>"]
 edition = "2018"
 license = "Apache-2.0"
-license-file = "LICENSE.txt"
 repository = "https://github.com/octoml/triton-client-rs"
 description = "A client for NVIDIA Triton."
 
