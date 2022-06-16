@@ -1,4 +1,4 @@
-use anyhow;
+use http::uri::InvalidUri;
 use tonic::metadata::MetadataValue;
 use tonic::transport::channel::ClientTlsConfig;
 use tonic::{service::interceptor::InterceptedService, Status};
@@ -14,14 +14,14 @@ pub struct Client {
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
-    #[error("Create dataref: `dataref` unexpectedly missing in server response")]
-    DataRefMissing {},
-    #[error("No OctoML access token is set in the configuration files.")]
-    NoAccessToken {},
+    #[error("a gRPC transport error has occurred: {0}")]
+    TransportError(#[from] tonic::transport::Error),
+    #[error("the client was provided and invalid URI: {0}")]
+    InvalidUri(#[from] InvalidUri)
 }
 
 impl Client {
-    pub async fn new(url: String, access_token: Option<String>) -> anyhow::Result<Self> {
+    pub async fn new(url: String, access_token: Option<String>) -> Result<Self, Error> {
         let mut channel = Channel::from_shared(url)?;
 
         if access_token.is_some() {
