@@ -1,3 +1,6 @@
+
+#![doc = include_str!("../README.md")]
+
 #[cfg(feature = "tls")]
 pub mod client;
 
