@@ -1,7 +1,10 @@
 [package]
 name = "triton-client"
-version = "0.1.0"
-authors = ["Jared Roesch <jroesch@octoml.ai>"]
+version = "0.2.0"
+authors = [
+    "Jared Roesch <jroesch@octoml.ai>",
+    "Andrew McHarg <amcharg@octoml.ai>",
+]
 edition = "2018"
 license = "Apache-2.0"
 repository = "https://github.com/octoml/triton-client-rs"
@@ -16,18 +19,25 @@ tls = ["tonic/tls", "tonic/tls-roots"]
 
 [dependencies]
 bytes = { version = "1", default-features = false }
-prost = { version = "^0.10", default-features = false, features = ["prost-derive"] }
+prost = { version = "^0.10", default-features = false, features = [
+    "prost-derive",
+] }
 prost-types = { version = "^0.10", default-features = false }
 serde = { version = "^1.0", features = ["derive"] }
 serde_json = "1.0"
-tonic = { version = "^0.7", default-features = false, features = ["codegen", "prost"] }
+tonic = { version = "^0.7", default-features = false, features = [
+    "codegen",
+    "prost",
+] }
 thiserror = "1.0"
 anyhow = "1.0"
 http = { version = "0.2", default-features = false }
 http-body = { version = "0.4", default-features = false }
 byteorder = { version = "1", default-features = false }
 base64 = { version = "0.13", default-features = false }
-wasm-bindgen = { version = "0.2", default-features = false, features = ["serde-serialize"] }
+wasm-bindgen = { version = "0.2", default-features = false, features = [
+    "serde-serialize",
+] }
 wasm-bindgen-futures = { version = "0.4", default-features = false }
 wasm-streams = { version = "0.2" }
 futures = { version = "0.3", default-features = false, features = ["alloc"] }
@@ -39,7 +49,9 @@ hyper = { version = "0.14", default-features = false }
 [build-dependencies]
 walkdir = "2"
 anyhow = "1.0"
-tonic-build = { version = "^0.7", default-features = false, features = ["prost"] }
+tonic-build = { version = "^0.7", default-features = false, features = [
+    "prost",
+] }
 
 [dev-dependencies]
 tokio = { version = "1.20.1", features = ["rt", "rt-multi-thread", "macros"] }
