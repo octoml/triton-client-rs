@@ -40,3 +40,6 @@ hyper = { version = "0.14", default-features = false }
 walkdir = "2"
 anyhow = "1.0"
 tonic-build = { version = "^0.7", default-features = false, features = ["prost"] }
+
+[dev-dependencies]
+tokio = { version = "1.20.1", features = ["rt", "rt-multi-thread", "macros"] }
