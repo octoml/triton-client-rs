@@ -21,7 +21,7 @@ fn main() -> Result<()> {
     // The toplevel types directory.
     let pb_dir: std::path::PathBuf = env::var("TRITON_PROTOBUF")
         .ok()
-        .unwrap_or(concat!(env!("CARGO_MANIFEST_DIR"), "/common/protobuf").to_string())
+        .unwrap_or_else(|| concat!(env!("CARGO_MANIFEST_DIR"), "/common/protobuf").to_string())
         .into();
 
     println!("cargo:rerun-if-changed={}", &pb_dir.display());
